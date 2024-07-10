@@ -22,14 +22,31 @@ namespace WebApplication3.Controllers
         public User Get(int id)
         {
             var user = users.FirstOrDefault(x => x.Id == id);
-            return user;
+             return user;
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] User request)
+        [ProducesResponseType(typeof(User), 201)]
+        [ProducesResponseType(typeof(Error), 400)]
+        public void Post([FromBody] UserRequest request)
         {
-            users.Add(request);
+            if (string.IsNullOrEmpty(request.Name))
+            {
+
+                Error error = new Error();
+                error.Message = "The Name field is required.";
+
+               BadRequest(error);
+            }
+            User user = new User();
+            user.Email = request.Email;
+            user.Name = request.Name;
+            user.Job = request.Job;
+            user.Id = users.Count() + 1;
+        
+            users.Add(user);
+             CreatedAtAction("Get" , new { id = user.Id }, user);
         }
 
         // PUT api/<UsersController>/5
@@ -46,7 +63,7 @@ namespace WebApplication3.Controllers
                 // user.Id = id;
                 user.Name = request.Name;
                 user.Email = request.Email;
-                user.job = request.job;
+                user.Job = request.Job;
                 return Ok(user);
             }
         }

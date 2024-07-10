@@ -1,9 +1,12 @@
-﻿namespace WebApplication3
+﻿
+
+namespace WebApplication3
 {
-    public class User
+    public class UserRequest
     {
-        public int Id { get; set; }
+      
         public string Name { get; set; }
+        [StringLength(10)]
         public string Email { get; set; }
         public string Job { get; set; }
     }

@@ -7,7 +7,6 @@ namespace WebApplication3.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
-
     {
         private static List<User> users = new List<User>();
 
@@ -28,28 +27,9 @@ namespace WebApplication3.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        [ProducesResponseType(typeof(User), 201)]
-        [ProducesResponseType(typeof(Error), 400)]
-
-        public void Post([FromBody] UserRequest request)
+        public void Post([FromBody] User request)
         {
-
-            if (string.IsNullOrEmpty(request.Name))
-            {
-                Error error = new Error();
-                error Message = "The Name field is required."
-
-               BadRequest(error);
-
-            }
-            User user = new User();
-            user.Email = request.Email;
-            user.Name = request.Name;
-            user.Job =  request .Job;
-            user.Id = users.Count() + 1 ;
-    
-            users.Add(user);
-            CreatedAtAction("Get",new {id = user.Id}, user);
+            users.Add(request);
         }
 
         // PUT api/<UsersController>/5
@@ -66,7 +46,7 @@ namespace WebApplication3.Controllers
                 // user.Id = id;
                 user.Name = request.Name;
                 user.Email = request.Email;
-                user.Job = request.Job;
+                user.job = request.job;
                 return Ok(user);
             }
         }
